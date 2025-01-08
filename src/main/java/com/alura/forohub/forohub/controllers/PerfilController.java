@@ -9,6 +9,7 @@ import com.alura.forohub.forohub.perfil.DatosDetallePerfil;
 import com.alura.forohub.forohub.perfil.DatosRegistrarPerfil;
 import com.alura.forohub.forohub.perfil.PerfilService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import java.net.URI;
@@ -30,12 +31,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/perfil")
+@SecurityRequirement(name = "bearer-key")
 public class PerfilController {
 
 
     @Autowired
     private PerfilService service;
-
 
     @PostMapping
     public ResponseEntity<DatosDetallePerfil> registrarPerfil(@RequestBody(required = false) @Valid DatosRegistrarPerfil datos, UriComponentsBuilder uriComponentsBuilder) {

@@ -36,7 +36,10 @@ public class SecurityFilter extends OncePerRequestFilter {
         Pattern.compile("^/respuesta/\\d+$"),
         Pattern.compile("^/topico/\\d+$"),    
         Pattern.compile("^/topico/todos$") ,
-        Pattern.compile("^/respuesta/todos$") 
+        Pattern.compile("^/respuesta/todos$"),
+        Pattern.compile("^/v3/api-docs(/.*)?$"),
+        Pattern.compile("^/swagger-ui\\.html$"),
+        Pattern.compile("^/swagger-ui(/.*)?$")
     );
 
 

@@ -34,6 +34,7 @@ public class CursoController {
     @Autowired
     private CursoService service;
 
+    
     @PostMapping("/registrar")
     public ResponseEntity<DatosDetalleCurso> registrarCurso(@RequestBody(required = false) @Valid DatosRegistroCurso datos, UriComponentsBuilder uriComponentsBuilder) {
         if (datos == null) {

@@ -11,6 +11,7 @@ import com.alura.forohub.forohub.topico.DatosDetalleTopico;
 import com.alura.forohub.forohub.topico.DatosRegistrarTopico;
 import com.alura.forohub.forohub.topico.TopicoService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import java.net.URI;
@@ -41,6 +42,7 @@ public class TopicoController {
     @Autowired
     private TokenService tokenService;
 
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping
     public ResponseEntity<DatosDetalleTopico> registrarTopico(@RequestHeader("Authorization") String token, @RequestBody @Valid DatosRegistrarTopico datos, UriComponentsBuilder uriComponentsBuilder) {
         if (datos == null) {
@@ -68,8 +70,10 @@ public class TopicoController {
     }
 
 
+    @SecurityRequirement(name = "bearer-key")
     @PutMapping("/modificar/{id}")
-    public ResponseEntity<DatosDetalleTopico> updateTopicoById(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody(required = false) @Valid DatosActualizarTopico datos) {
+    public ResponseEntity<DatosDetalleTopico> updateTopicoById(@RequestHeader("Authorization") String token,
+            @PathVariable Long id, @RequestBody(required = false) @Valid DatosActualizarTopico datos) {
         if (datos == null) {
             throw new NotRequestBodyException("Necesito la Request Body");
         }
@@ -79,6 +83,7 @@ public class TopicoController {
         return ResponseEntity.ok(topico);
     }
     
+    @SecurityRequirement(name = "bearer-key")
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<DatosDetalleTopico> removeTopicoById(@RequestHeader("Authorization") String token, @PathVariable Long id){
         token = token.replace("Bearer ", "");

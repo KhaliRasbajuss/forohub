@@ -23,6 +23,8 @@ import com.alura.forohub.forohub.respuesta.DatosDetalleRespuesta;
 import com.alura.forohub.forohub.respuesta.DatosRegistrarRespuesta;
 import com.alura.forohub.forohub.respuesta.RespuestaService;
 import com.alura.forohub.forohub.security.TokenService;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -37,6 +39,7 @@ public class RespuestaController {
     @Autowired
     private TokenService tokenService;
 
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping
     public ResponseEntity<DatosDetalleRespuesta> registrarRespuesta(@RequestHeader("Authorization") String token, @RequestBody(required = false) @Valid DatosRegistrarRespuesta datos, UriComponentsBuilder uriComponentsBuilder) {
         if (datos == null) {
@@ -55,6 +58,7 @@ public class RespuestaController {
         return ResponseEntity.ok(topico);
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/todos")
     public ResponseEntity<Page<DatosDetalleRespuesta>> findAllByIdRespuesta(@RequestHeader("Authorization") String token, @PageableDefault(size = 10) Pageable paginacion) {
         token = token.replace("Bearer ", "");
@@ -63,9 +67,10 @@ public class RespuestaController {
         return ResponseEntity.ok(topicos);
     }
     
-    
+    @SecurityRequirement(name = "bearer-key")
     @PutMapping("/modificar/{id}")
-    public ResponseEntity<DatosDetalleRespuesta> updateRespuestaById(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody(required = false) @Valid DatosActualizarRespuesta datos) {
+    public ResponseEntity<DatosDetalleRespuesta> updateRespuestaById(@RequestHeader("Authorization") String token,
+            @PathVariable Long id, @RequestBody(required = false) @Valid DatosActualizarRespuesta datos) {
         if (datos == null) {
             throw new NotRequestBodyException("Necesito la Request Body");
         }
@@ -75,6 +80,7 @@ public class RespuestaController {
         return ResponseEntity.ok(respuesta);
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @DeleteMapping("/eliminar/{id}")
      public ResponseEntity<DatosDetalleRespuesta> removeRespuestaById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         token = token.replace("Bearer ", "");

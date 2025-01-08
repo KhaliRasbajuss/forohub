@@ -41,14 +41,15 @@ public class SecurityConfig {
         return http.csrf(crsf -> crsf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
+                    req.requestMatchers( HttpMethod.POST,"/topico").hasAnyRole(Roles.ADMIN.name(), Roles.USUARIO.name());
                     req.requestMatchers("/usuario/*").permitAll();
                     req.requestMatchers("/topico/*").permitAll();
                     req.requestMatchers("/respuesta/*").permitAll();
-                    req.requestMatchers( HttpMethod.POST,"/topico").hasAnyRole(Roles.ADMIN.name(), Roles.USUARIO.name());
                     req.requestMatchers("/topico/modificar/*", "/topico/eliminar/*").hasAnyRole(Roles.ADMIN.name(), Roles.USUARIO.name());
                     req.requestMatchers("/perfil", "/perfil/*").hasRole(Roles.ADMIN.name());
                     req.requestMatchers("/respuesta", "/respuesta/modificar/*", "/respuesta/eliminar/*").hasAnyRole(Roles.USUARIO.name(), Roles.ADMIN.name());
                     req.requestMatchers("/curso", "/curso/*").hasRole(Roles.USUARIO.name());
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 
                 })
